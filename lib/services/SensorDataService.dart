@@ -7,18 +7,18 @@ class SensorDataService {
   final _sensorDataController = StreamController<Map<String, dynamic>>.broadcast();
   Stream<Map<String, dynamic>> get sensorDataStream => _sensorDataController.stream;
 
-  Map<String, dynamic> _latestSensorData = { // Stores the latest sensor data
+  Map<String, dynamic> _latestSensorData = { 
     'temperature': 0.0,
     'pressure': 0.0,
     'mq135': 0.0,
     'timestamp': DateTime.now(),
   };
-  Map<String, dynamic> get latestSensorData => _latestSensorData; // Getter for latest data
+  Map<String, dynamic> get latestSensorData => _latestSensorData; 
 
-  // New: List to store historical sensor data for charting
+
   final List<Map<String, dynamic>> _sensorDataHistory = [];
-  List<Map<String, dynamic>> get sensorDataHistory => _sensorDataHistory; // This getter is crucial
-  final int _maxHistorySize = 20; // Keep last 20 data points for graphs
+  List<Map<String, dynamic>> get sensorDataHistory => _sensorDataHistory; 
+  final int _maxHistorySize = 20; 
 
   Timer? _timer;
   bool _isAnomalyDetected = false;
@@ -37,12 +37,12 @@ class SensorDataService {
       double pressure = 1000.0 + random.nextDouble() * 50; // 1000-1050 hPa
       double mq135 = 50.0 + random.nextDouble() * 100; // 50-150 for air quality
 
-      // Introduce anomalies occasionally for demonstration
-      if (random.nextInt(10) < 2) { // 20% chance of anomaly
-        if (random.nextBool()) { // 50% chance high MQ135
-          mq135 = 180.0 + random.nextDouble() * 50; // High air pollutant
-        } else { // 50% chance high temperature
-          temperature = 35.0 + random.nextDouble() * 5; // Unusually high temperature
+      
+      if (random.nextInt(10) < 2) { 
+        if (random.nextBool()) { 
+          mq135 = 180.0 + random.nextDouble() * 50; 
+        } else { 
+          temperature = 35.0 + random.nextDouble() * 5; 
         }
       }
 
@@ -52,13 +52,13 @@ class SensorDataService {
         'mq135': mq135,
         'timestamp': DateTime.now(),
       };
-      _latestSensorData = data; // Update latest data
+      _latestSensorData = data; 
       _sensorDataController.add(data);
 
-      // Add to history and manage size
+      
       _sensorDataHistory.add(data);
       if (_sensorDataHistory.length > _maxHistorySize) {
-        _sensorDataHistory.removeAt(0); // Remove oldest data point
+        _sensorDataHistory.removeAt(0); 
       }
 
       _checkAnomaly(data);
@@ -67,11 +67,11 @@ class SensorDataService {
 
   void _checkAnomaly(Map<String, dynamic> data) {
     bool currentAnomalyState = false;
-    // Simple anomaly detection rules (sensor-only)
-    if (data['mq135'] > 170) { // Example: High air pollution
+    
+    if (data['mq135'] > 170) { 
       currentAnomalyState = true;
     }
-    if (data['temperature'] > 33) { // Example: Unusually high temperature
+    if (data['temperature'] > 33) { 
       currentAnomalyState = true;
     }
 
@@ -80,7 +80,7 @@ class SensorDataService {
       _anomalyStatusController.add(_isAnomalyDetected);
       if (_isAnomalyDetected) {
         print('Sensor-only anomaly detected! Buzzer would buzz on IoT kit. Publishing to MQTT...');
-        // Publish a command for the buzzer.
+        
         mqttService.publishBuzzerCommand('ON');
       } else {
         print('Sensor-only anomaly cleared. Publishing to MQTT...');
