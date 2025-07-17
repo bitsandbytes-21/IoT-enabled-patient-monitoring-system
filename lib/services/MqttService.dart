@@ -10,18 +10,18 @@ class MqttService {
   MqttService._internal();
 
   MqttServerClient? client;
-  String _broker = '192.168.29.100';
+  String _broker = 'YOUR_BROKER ADDRESS';
   final int _port = 1883;
   String _clientId = 'flutter_client_${Random().nextInt(1000)}';
-  String? _username = 'uryaswi';
-  String? _password = '1234';
+  String? _username = 'YOUR_BROKER_USERNAME';
+  String? _password = 'YOUR_BROKER_PASSWORD';
 
   // Topics
   final String _sensorDataTopic = 'iot/sensor/data';
   final String _buzzerControlTopic = 'iot/esp/buzzer';
   final String _oledDisplayTopic = 'iot/esp/oled';
 
-  void initialize(String username, String password, {String broker = '192.168.29.100', int port = 1883}) {
+  void initialize(String username, String password, {String broker = 'BROKER_ADDRESS', int port = 1883}) {
     _username = username;
     _password = password;
     _broker = broker;
