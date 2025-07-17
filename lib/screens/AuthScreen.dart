@@ -95,7 +95,7 @@ class _AuthScreenState extends State<AuthScreen> {
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/register'); // Navigate to registration screen
+                  Navigator.pushNamed(context, '/register'); 
                 },
                 child: const Text('Dont have an account? Sign Up'),
               ),
