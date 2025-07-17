@@ -7,8 +7,8 @@
 #include <Adafruit_SSD1306.h> 
 
 
-const char* ssid = "Bhowmick";        
-const char* password = "MLK69@22gh"; 
+const char* ssid = "wifi_ssid";        
+const char* password = "wifi_password"; 
 
 
 const char* mqtt_server = "YOUR_BROKER ADDRESS"; 
