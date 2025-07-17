@@ -62,14 +62,14 @@ class _LlmChatScreenState extends State<LlmChatScreen> {
     User's Question: "$userQuestion"
     """;
 
-    const apiKey = "AIzaSyBbVMTxPHq_fjBDFnJN08WZCqSe-aGOEiY"; // <<<<<<< REPLACE THIS WITH YOUR ACTUAL GEMINI API KEY >>>>>>>
+    const apiKey = "YOUR_GEMINI_API"; 
     const apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$apiKey";
 
     final List<Map<String, dynamic>> geminiChatHistory = [
       {
         "role": "user",
         "parts": [
-          {"text": llmPrompt} // Send the detailed prompt to Gemini
+          {"text": llmPrompt} 
         ]
       }
     ];
@@ -77,12 +77,12 @@ class _LlmChatScreenState extends State<LlmChatScreen> {
     final Map<String, dynamic> payload = {
       "contents": geminiChatHistory,
       "generationConfig": {
-        "temperature": 0.7, // Adjust creativity (0.0 to 1.0)
-        "maxOutputTokens": 150, // Limit response length for brevity and OLED compatibility
+        "temperature": 0.7, 
+        "maxOutputTokens": 150, 
       }
     };
 
-    String responseText = "An error occurred. Please try again."; // Initialize with a default value
+    String responseText = "An error occurred. Please try again."; 
     try {
       final response = await http.post(
         Uri.parse(apiUrl),
@@ -98,14 +98,14 @@ class _LlmChatScreenState extends State<LlmChatScreen> {
             result['candidates'][0]['content']['parts'].isNotEmpty) {
           responseText = result['candidates'][0]['content']['parts'][0]['text'];
 
-          // Simple keyword-based anomaly detection from LLM's response
+        
           if (responseText.toLowerCase().contains('seek immediate medical attention') ||
               responseText.toLowerCase().contains('critical') ||
               responseText.toLowerCase().contains('emergency') ||
               responseText.toLowerCase().contains('worsening')) {
-            mqttService.publishBuzzerCommand('ON'); // Trigger buzzer for serious alerts
+            mqttService.publishBuzzerCommand('ON'); 
           } else {
-            mqttService.publishBuzzerCommand('OFF'); // Ensure buzzer is off for normal responses
+            mqttService.publishBuzzerCommand('OFF'); 
           }
 
         } else {
