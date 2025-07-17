@@ -32,7 +32,7 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
   bool _isLoading = false;
 
   Future<String> _getLlmResponse(String promptText) async {
-    const apiKey = "AIzaSyBbVMTxPHq_fjBDFnJN08WZCqSe-aGOEiY";
+    const apiKey = "YOUR_GEMINI_API_KEY";
     const apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$apiKey";
 
     final List<Map<String, dynamic>> chatHistory = [
